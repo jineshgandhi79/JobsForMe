@@ -4,7 +4,7 @@ function App() {
 
   return (
     <>
-      <div>Jobs for Me</div>
+      <div>JobsforMe</div>
     </>
   )
 }
