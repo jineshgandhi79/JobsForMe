@@ -1,5 +1,5 @@
 import React from 'react'
-import { Briefcase, Target, LineChart, Sparkles } from 'lucide-react'
+import { Briefcase, Target, LineChart } from 'lucide-react'
 import { Link } from 'react-router-dom'
 
 function Home() {

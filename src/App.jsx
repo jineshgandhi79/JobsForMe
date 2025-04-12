@@ -1,9 +1,9 @@
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
 import './App.css'
-import NavBar from './Components/NavBar/NavBar'
-import Home from './Components/Home/Home'
-import Profile from './Components/Profile/Profile'
-import Jobs from './Components/Jobs/Jobs'
+import NavBar from './Components/NavBar'
+import Home from './Components/Home'
+import Profile from './Components/Profile'
+import Jobs from './Components/Jobs'
 
 function App() {
 
