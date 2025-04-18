@@ -1,27 +1,37 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import JobCard from './JobCard'
+import Loader from './Loader';
 
 function Jobs() {
-  const job = {
-    "id": "job_001",
-    "title": "Backend Developer",
-    "company": "BrightPath",
-    "location": "Chennai",
-    "type": "Remote",
-    "skills": [
-      "Node.js",
-      "Express",
-      "MongoDB",
-      "PostgreSQL"
-    ],
-    "expected_salary": "16-29 LPA",
-    "experience_required": "1+ years",
-    "apply_link": "https://example.com/apply/job_001",
-    "posted_date": "2025-04-09"
-  }
+  const [jobs,setJobs] = useState([]);
+  const [isLoading,setIsLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/jobs_mock_data.json')
+      .then(response => response.json())
+      .then(data => {
+        setJobs(data);
+        setIsLoading(false);
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
+  
   return (
-    <JobCard job={job}/>
+    isLoading ? (
+      <Loader/>
+    ) :
+    (<>
+      <ul>
+        {
+          jobs.map((job)=>(
+            <li key={job.id}>
+              <JobCard job={job}/>
+            </li>
+          ))
+        }
+      </ul>
+    </>)
   )
-}
+} 
 
 export default Jobs
