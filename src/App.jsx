@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import './App.css'
 import { lazy, Suspense } from 'react'
+import Loader  from "./Components/Loader"
 
 const NavBar = lazy(() => import('./Components/NavBar'))
 const Home = lazy(() => import('./Components/Home'))
@@ -11,7 +12,7 @@ function App() {
   
   return (
     <BrowserRouter>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader/>}>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />
