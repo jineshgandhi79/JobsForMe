@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { skills } from '../datasets/skills';
 import { Save } from 'lucide-react';
-import UserDetails from './UserDetails';
+import Profile from './Profile';
+
 
 function UserDetailsForm() {
 
@@ -26,7 +27,7 @@ function UserDetailsForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('userProfile', JSON.stringify(formData));
-    setSubmitted(true)
+    setSubmitted(true);
   };
 
   const handleSkillChange = (skillId) => {
@@ -40,7 +41,7 @@ function UserDetailsForm() {
 
   return (
     submitted ? (
-      <UserDetails/>
+      <Profile/>
     ) : (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-6">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-8">
