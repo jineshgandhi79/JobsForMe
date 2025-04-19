@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { skills } from '../datasets/skills';
 import { Save } from 'lucide-react';
+import UserDetails from './UserDetails';
 
-function LoginForm() {
+function UserDetailsForm() {
+
+  const [submitted,setSubmitted] = useState(false);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,6 +26,7 @@ function LoginForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem('userProfile', JSON.stringify(formData));
+    setSubmitted(true)
   };
 
   const handleSkillChange = (skillId) => {
@@ -34,6 +39,9 @@ function LoginForm() {
   };
 
   return (
+    submitted ? (
+      <UserDetails/>
+    ) : (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white p-6">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-8">Your Profile</h1>
@@ -126,7 +134,8 @@ function LoginForm() {
         </form>
       </div>
     </div>
+    )
   );
 }
 
-export default LoginForm;
+export default UserDetailsForm;
