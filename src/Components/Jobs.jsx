@@ -10,6 +10,16 @@ function Jobs() {
   const buttonRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState('');
 
+  const filteredJobs = jobs.filter((job) => {
+    const query = searchQuery.toLowerCase();
+    return (
+      job.title.toLowerCase().includes(query) ||
+      job.company.toLowerCase().includes(query) ||
+      job.location.toLowerCase().includes(query)
+    );
+  });
+  
+
   useEffect(() => {
     fetch('/jobs_mock_data.json')
       .then(response => response.json())
@@ -86,7 +96,7 @@ function Jobs() {
           </div>
           
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {jobs.map((job) => (
+            {filteredJobs.map((job) => (
               <li key={job.id} className="flex">
                 <JobCard job={job}/>
               </li>
