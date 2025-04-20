@@ -1,39 +1,39 @@
-import React, { useEffect, useState, useRef } from 'react'
-import JobCard from './JobCard'
-import Loader from './Loader';
+import React, { useEffect, useState, useRef } from "react";
+import JobCard from "./JobCard";
+import Loader from "./Loader";
 
 function Jobs() {
-  const [jobs,setJobs] = useState([]);
-  const [isLoading,setIsLoading] = useState(true);
+  const [jobs, setJobs] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [isComponentVisible, setIsComponentVisible] = useState(false);
   const componentRef = useRef(null);
   const buttonRef = useRef(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   const filteredJobs = jobs.filter((job) => {
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.toLowerCase().replace(/\s+/g, "");
     return (
-      job.title.toLowerCase().includes(query) ||
-      job.company.toLowerCase().includes(query) ||
-      job.location.toLowerCase().includes(query)
+      job.title.toLowerCase().replace(/\s+/g, "").includes(query) ||
+      job.company.toLowerCase().replace(/\s+/g, "").includes(query) ||
+      job.location.toLowerCase().replace(/\s+/g, "").includes(query)
     );
   });
   
 
   useEffect(() => {
-    fetch('/jobs_mock_data.json')
-      .then(response => response.json())
-      .then(data => {
+    fetch("/jobs_mock_data.json")
+      .then((response) => response.json())
+      .then((data) => {
         setJobs(data);
         setIsLoading(false);
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch((error) => console.error("Error fetching data:", error));
   }, []);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
-        componentRef.current && 
+        componentRef.current &&
         !componentRef.current.contains(event.target) &&
         !buttonRef.current.contains(event.target)
       ) {
@@ -41,10 +41,10 @@ function Jobs() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-  
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       {isLoading ? (
@@ -71,7 +71,7 @@ function Jobs() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search jobs..."
+                  placeholder="Search by Role, Company, or Location..."
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
               </div>
@@ -80,9 +80,9 @@ function Jobs() {
                 onClick={() => setIsComponentVisible(!isComponentVisible)}
                 className="bg-[oklch(0.62_0.01_264.7)] cursor-pointer hover:bg-[oklch(0.74_0_0)] text-white px-4 py-2 rounded-lg whitespace-nowrap"
               >
-                Toggle Component
+                Filter
               </button>
-              
+
               {isComponentVisible && (
                 <div
                   ref={componentRef}
@@ -94,18 +94,22 @@ function Jobs() {
               )}
             </div>
           </div>
-          
+
           <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredJobs.map((job) => (
-              <li key={job.id} className="flex">
-                <JobCard job={job}/>
-              </li>
-            ))}
+            {filteredJobs.length === 0 ? (
+              <p className="">No results found...</p>
+            ) : (
+              filteredJobs.map((job) => (
+                <li key={job.id} className="flex">
+                  <JobCard job={job} />
+                </li>
+              ))
+            )}
           </ul>
         </div>
       )}
     </div>
-  )
+  );
 }
 
-export default Jobs
+export default Jobs;
