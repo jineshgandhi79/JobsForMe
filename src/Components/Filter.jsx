@@ -60,7 +60,11 @@ const Filter = ({ onApplyFilters, activeFilters }) => {
   };
 
   const handleApplyUserPreferences = () => {
-    if (!userData) return;
+    console.log("Applying user preferences, userData:", userData);
+    if (!userData?.jobType || !userData?.skills) {
+      console.log("Missing required user data");
+      return;
+    }
 
     // Capitalize first letter to match job data format
     const capitalizedJobType = userData.jobType.charAt(0).toUpperCase() + userData.jobType.slice(1);
@@ -91,11 +95,11 @@ const Filter = ({ onApplyFilters, activeFilters }) => {
   };
 
   return (
-    <div className="relative bg-white rounded-lg shadow-lg p-4">
-      {userData && (
+    <div className="p-4 overflow-visible">
+      {userData?.jobType && (
         <button
           onClick={handleApplyUserPreferences}
-          className="w-full mb-3 cursor-pointer bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-200 transition-colors duration-300"
+          className="sticky top-0 z-[101] w-full mb-3 cursor-pointer bg-indigo-100 text-indigo-600 px-4 py-2 rounded-lg hover:bg-indigo-200 transition-colors duration-300"
         >
           Use My Preferences
         </button>

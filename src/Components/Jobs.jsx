@@ -11,14 +11,13 @@ function Jobs() {
   const componentRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const searchRef = useRef(null);
   
   // Initialize activeFilters from localStorage or default value
   const [activeFilters, setActiveFilters] = useState(() => {
     const savedFilters = localStorage.getItem('jobFilters');
     return savedFilters ? JSON.parse(savedFilters) : { jobType: 'Default' };
   });
-
-  const {userData} = useContext(UserContext);
 
   // Update localStorage when filters change
   useEffect(() => {
@@ -132,14 +131,27 @@ function Jobs() {
 
             {/* Search bar and toggle button container */}
             <div className="relative flex items-center justify-center gap-4">
-              <div className="w-full max-w-2xl">
-                <input
+              <div className="w-full max-w-2xl relative">
+                <input ref={searchRef}
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by Role, Company, or Location..."
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 />
+                {searchQuery && (
+                  <button
+                    onClick={() => {
+                      setSearchQuery("");
+                      searchRef.current.focus();
+                    }}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-7 cursor-pointer w-7" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  </button>
+                )}
               </div>
               <button
                 ref={buttonRef}
@@ -152,7 +164,7 @@ function Jobs() {
               {isComponentVisible && (
                 <div
                   ref={componentRef}
-                  className="absolute right-0 top-full mt-2 w-64 z-50"
+                  className="absolute right-0 top-full mt-2 w-72 z-[100] bg-white rounded-lg shadow-xl"
                 >
                   <Filter 
                     onApplyFilters={handleApplyFilters}
