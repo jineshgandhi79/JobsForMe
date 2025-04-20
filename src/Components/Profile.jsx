@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useContext } from 'react';
 import { Calendar, Briefcase, GraduationCap, Tags } from 'lucide-react';
 import UserDetailsForm from './UserDetailsForm';
 import { skills as skillsList } from '../datasets/skills';
+import { UserContext } from '../Contexts/UserContext';
 
 function Profile() {
-  const [userData, setUserData] = useState(null);
+  
+  const {userData, setUserData} = useContext(UserContext);
 
   useEffect(() => {
     const savedData = localStorage.getItem('userProfile');
