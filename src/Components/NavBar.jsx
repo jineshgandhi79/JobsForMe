@@ -12,7 +12,7 @@ function NavBar() {
     <nav className="flex justify-between items-center px-8 bg-gradient-to-r from-indigo-700 to-indigo-600 shadow-md h-16 sticky top-0 z-[1000]">
       <div className="flex items-center flex-1">
         <Link to={"/"} className="flex items-center bg-white/15 px-3 py-1.5 rounded-lg transition-all duration-300 hover:bg-white/25 hover:-translate-y-0.5">
-          <img src="../src/assets/job-search.png" alt="logo" className="h-8 w-auto filter drop-shadow" />
+          <img src="/job-search.png" alt="logo" className="h-8 w-auto filter drop-shadow" />
         </Link>
       </div>
       
