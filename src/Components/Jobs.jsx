@@ -41,7 +41,17 @@ function Jobs() {
       );
     }
 
-    return matchesSearch && matchesJobType && matchesSalary;
+    // Experience filtering
+    let matchesExperience = true;
+    if (activeFilters.experience !== undefined && activeFilters.experience !== '') {
+      const userExperience = parseInt(activeFilters.experience);
+      const requiredExperience = job.experience_required.toLowerCase().includes('fresher') 
+        ? 0 
+        : parseInt(job.experience_required);
+      matchesExperience = userExperience >= requiredExperience;
+    }
+
+    return matchesSearch && matchesJobType && matchesSalary && matchesExperience;
   });
 
   const handleApplyFilters = (filters) => {
