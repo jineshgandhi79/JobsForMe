@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import JobCard from "./JobCard";
 import Loader from "./Loader";
+import Filter from "./Filter";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -9,16 +10,26 @@ function Jobs() {
   const componentRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [activeFilters, setActiveFilters] = useState({ jobType: 'Default' });
 
   const filteredJobs = jobs.filter((job) => {
     const query = searchQuery.toLowerCase().replace(/\s+/g, "");
-    return (
+    const matchesSearch = (
       job.title.toLowerCase().replace(/\s+/g, "").includes(query) ||
       job.company.toLowerCase().replace(/\s+/g, "").includes(query) ||
       job.location.toLowerCase().replace(/\s+/g, "").includes(query)
     );
+
+    const matchesJobType = 
+      activeFilters.jobType === 'Default' || 
+      job.type === activeFilters.jobType;
+
+    return matchesSearch && matchesJobType;
   });
-  
+
+  const handleApplyFilters = (filters) => {
+    setActiveFilters(filters);
+  };
 
   useEffect(() => {
     fetch("/jobs_mock_data.json")
@@ -86,10 +97,13 @@ function Jobs() {
               {isComponentVisible && (
                 <div
                   ref={componentRef}
-                  className="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-lg p-4 z-10"
+                  className="absolute right-0 top-full mt-2 w-64 z-10"
                 >
-                  <h2 className="text-lg font-semibold">Your Component</h2>
-                  <p>This is your component content</p>
+                  <Filter 
+                    onApplyFilters={handleApplyFilters}
+                    activeFilters={activeFilters}
+                    setIsComponentVisible={setIsComponentVisible}
+                  />
                 </div>
               )}
             </div>
