@@ -88,9 +88,9 @@ function UserDetailsForm() {
               onChange={(e) => setFormData({...formData, jobType: e.target.value})}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
             >
-              <option value="remote">Remote</option>
-              <option value="onsite">On Site</option>
-              <option value="hybrid">Hybrid</option>
+              <option value="Remote">Remote</option>
+              <option value="On-site">On-site</option>
+              <option value="Hybrid">Hybrid</option>
             </select>
           </div>
 

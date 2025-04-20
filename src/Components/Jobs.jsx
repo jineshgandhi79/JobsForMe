@@ -1,7 +1,8 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import JobCard from "./JobCard";
 import Loader from "./Loader";
 import Filter from "./Filter";
+import { UserContext } from "../Contexts/UserContext";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);
@@ -16,6 +17,8 @@ function Jobs() {
     const savedFilters = localStorage.getItem('jobFilters');
     return savedFilters ? JSON.parse(savedFilters) : { jobType: 'Default' };
   });
+
+  const {userData} = useContext(UserContext);
 
   // Update localStorage when filters change
   useEffect(() => {
@@ -32,7 +35,7 @@ function Jobs() {
 
     const matchesJobType = 
       activeFilters.jobType === 'Default' || 
-      job.type === activeFilters.jobType;
+      job.type.toLowerCase() === activeFilters.jobType.toLowerCase();
 
     // Salary range filtering
     let matchesSalary = true;
@@ -64,8 +67,13 @@ function Jobs() {
     // Skills filtering
     let matchesSkills = true;
     if (activeFilters.skills && activeFilters.skills.length > 0) {
-      matchesSkills = activeFilters.skills.some(skill => 
-        job.skills.includes(skill)
+      // Convert job skills and filter skills to lowercase for case-insensitive comparison
+      const jobSkillsLower = job.skills.map(skill => skill.toLowerCase());
+      const filterSkillsLower = activeFilters.skills.map(skill => skill.toLowerCase());
+      
+      // Check if any of the filter skills match the job skills
+      matchesSkills = filterSkillsLower.some(filterSkill => 
+        jobSkillsLower.includes(filterSkill)
       );
     }
 
@@ -144,7 +152,7 @@ function Jobs() {
               {isComponentVisible && (
                 <div
                   ref={componentRef}
-                  className="absolute right-0 top-full mt-2 w-64 z-10"
+                  className="absolute right-0 top-full mt-2 w-64 z-50"
                 >
                   <Filter 
                     onApplyFilters={handleApplyFilters}
