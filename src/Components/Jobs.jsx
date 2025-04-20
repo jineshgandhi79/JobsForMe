@@ -24,7 +24,24 @@ function Jobs() {
       activeFilters.jobType === 'Default' || 
       job.type === activeFilters.jobType;
 
-    return matchesSearch && matchesJobType;
+    // Salary range filtering
+    let matchesSalary = true;
+    if (activeFilters.minSalary || activeFilters.maxSalary) {
+      const salaryRange = job.expected_salary.replace(/[^0-9-]/g, '').split('-');
+      let jobMinSalary = parseInt(salaryRange[0]);
+      let jobMaxSalary = parseInt(salaryRange[1] || salaryRange[0]);
+
+      const filterMin = activeFilters.minSalary ? parseInt(activeFilters.minSalary) : 0;
+      const filterMax = activeFilters.maxSalary ? parseInt(activeFilters.maxSalary) : Infinity;
+
+      matchesSalary = (
+        (jobMinSalary >= filterMin && jobMinSalary <= filterMax) ||
+        (jobMaxSalary >= filterMin && jobMaxSalary <= filterMax) ||
+        (jobMinSalary <= filterMin && jobMaxSalary >= filterMax)
+      );
+    }
+
+    return matchesSearch && matchesJobType && matchesSalary;
   });
 
   const handleApplyFilters = (filters) => {
