@@ -1,61 +1,31 @@
-const techSkills = new Set([
-    "Full Stack Development",
-    "Frontend Development",
-    "Backend Development",
-    "System Design",
-    "Data Structures & Algorithms",
-    "DevOps",
-    "Cloud Computing",
-    "Cybersecurity",
-    "Machine Learning",
-    "Deep Learning",
-    "Artificial Intelligence",
-    "Data Science",
-    "Data Engineering",
-    "Mobile App Development",
-    "iOS Development",
-    "Android Development",
-    "Cross-platform Development",
-    "React Native",
-    "Game Development",
-    "Blockchain Development",
-    "Web3",
-    "Augmented Reality (AR)",
-    "Virtual Reality (VR)",
-    "UI/UX Design",
-    "Product Management",
-    "Database Management",
-    "SQL",
-    "NoSQL",
-    "API Development",
-    "Microservices",
-    "Containerization (Docker, Kubernetes)",
-    "Site Reliability Engineering (SRE)",
-    "Software Testing",
-    "Test Automation",
-    "CI/CD",
-    "Big Data",
-    "Edge Computing",
-    "Embedded Systems",
-    "Internet of Things (IoT)",
-    "Robotics",
-    "Quantum Computing",
-    "Technical Writing",
-    "Game Design",
-    "Performance Optimization",
-    "Networking",
-    "Operating Systems",
-    "Computer Architecture",
-    "Ethical Hacking",
-    "Penetration Testing",
-    "Virtualization",
-    "Natural Language Processing (NLP)",
-    "Computer Vision"
-  ]);
-  
+const skills_pool = {
+  "Frontend Developer": ["React", "JavaScript", "HTML", "CSS"],
+  "Backend Developer": ["Node.js", "Express", "MongoDB", "PostgreSQL"],
+  "Full Stack Engineer": ["React", "Node.js", "MongoDB", "Docker"],
+  "Data Scientist": ["Python", "Pandas", "NumPy", "TensorFlow"],
+  "ML Engineer": ["Python", "scikit-learn", "TensorFlow", "Jupyter"],
+  "DevOps Engineer": ["AWS", "Docker", "Kubernetes", "CI/CD"],
+  "Cloud Architect": ["Azure", "AWS", "Terraform", "Ansible"],
+  "System Admin": ["Linux", "Shell Scripting", "Networking"],
+  "Product Manager": ["Agile", "Scrum", "Product Roadmaps"],
+  "UI/UX Designer": ["Figma", "Sketch", "Adobe XD", "Prototyping"],
+  "Data Analyst": ["SQL", "Power BI", "Tableau", "Excel"],
+  "Android Developer": ["Kotlin", "Android Studio", "Java"],
+  "iOS Developer": ["Swift", "Xcode", "UIKit"],
+  "QA Engineer": ["Manual Testing", "TestRail", "Bug Reporting"],
+  "Automation Tester": ["Selenium", "Java", "TestNG"],
+  "Business Analyst": ["Requirement Gathering", "JIRA", "Excel"],
+  "Tech Support Engineer": ["Troubleshooting", "Customer Service"],
+  "AI Researcher": ["Deep Learning", "PyTorch", "Research Papers"],
+  "Security Analyst": ["Firewalls", "SIEM", "Network Security"],
+  "Blockchain Developer": ["Solidity", "Ethereum", "Smart Contracts"]
+};
+
+const techSkills = new Set([].concat(...Object.values(skills_pool)));
+
 export const skills = Array.from(techSkills).map((skill) => {
-    return {
-      name: skill,
-      id: skill.toLowerCase().replace(/\s+/g, "-")
-    };
-  } );
+  return {
+    name: skill,
+    id: skill.toLowerCase().replace(/\s+/g, "-")
+  };
+});
