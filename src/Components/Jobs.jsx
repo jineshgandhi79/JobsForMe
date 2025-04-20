@@ -68,7 +68,7 @@ function Jobs() {
               <button
                 ref={buttonRef}
                 onClick={() => setIsComponentVisible(!isComponentVisible)}
-                className="bg-blue-500 cursor-pointer hover:bg-blue-600 text-white px-4 py-2 rounded-lg whitespace-nowrap"
+                className="bg-[oklch(0.62_0.01_264.7)] cursor-pointer hover:bg-[oklch(0.74_0_0)] text-white px-4 py-2 rounded-lg whitespace-nowrap"
               >
                 Toggle Component
               </button>
