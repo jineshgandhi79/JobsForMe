@@ -10,7 +10,17 @@ function Jobs() {
   const componentRef = useRef(null);
   const buttonRef = useRef(null);
   const [searchQuery, setSearchQuery] = useState("");
-  const [activeFilters, setActiveFilters] = useState({ jobType: 'Default' });
+  
+  // Initialize activeFilters from localStorage or default value
+  const [activeFilters, setActiveFilters] = useState(() => {
+    const savedFilters = localStorage.getItem('jobFilters');
+    return savedFilters ? JSON.parse(savedFilters) : { jobType: 'Default' };
+  });
+
+  // Update localStorage when filters change
+  useEffect(() => {
+    localStorage.setItem('jobFilters', JSON.stringify(activeFilters));
+  }, [activeFilters]);
 
   const filteredJobs = jobs.filter((job) => {
     const query = searchQuery.toLowerCase().replace(/\s+/g, "");
@@ -65,6 +75,7 @@ function Jobs() {
 
   const handleApplyFilters = (filters) => {
     setActiveFilters(filters);
+    localStorage.setItem('jobFilters', JSON.stringify(filters));
   };
 
   useEffect(() => {

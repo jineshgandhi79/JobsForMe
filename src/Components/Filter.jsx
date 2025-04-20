@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { skills } from "../datasets/skills";
 
 const Filter = ({ onApplyFilters, activeFilters, setIsComponentVisible }) => {
+  // Initialize state with stored filters
   const [jobType, setJobType] = useState(activeFilters?.jobType || "Default");
   const [minSalary, setMinSalary] = useState(activeFilters?.minSalary || "");
   const [maxSalary, setMaxSalary] = useState(activeFilters?.maxSalary || "");
   const [experience, setExperience] = useState(activeFilters?.experience || "");
-  const [selectedSkills, setSelectedSkills] = useState(
-    activeFilters?.skills || []
-  );
+  const [selectedSkills, setSelectedSkills] = useState(activeFilters?.skills || []);
 
   useEffect(() => {
     setJobType(activeFilters?.jobType || "Default");
@@ -29,18 +28,22 @@ const Filter = ({ onApplyFilters, activeFilters, setIsComponentVisible }) => {
   };
 
   const handleClearFilters = () => {
-    setJobType("Default");
-    setMinSalary("");
-    setMaxSalary("");
-    setExperience("");
-    setSelectedSkills([]);
-    onApplyFilters({
+    const defaultFilters = {
       jobType: "Default",
       minSalary: "",
       maxSalary: "",
       experience: "",
       skills: [],
-    });
+    };
+
+    setJobType(defaultFilters.jobType);
+    setMinSalary(defaultFilters.minSalary);
+    setMaxSalary(defaultFilters.maxSalary);
+    setExperience(defaultFilters.experience);
+    setSelectedSkills(defaultFilters.skills);
+    
+    onApplyFilters(defaultFilters);
+    localStorage.removeItem('jobFilters'); // Clear from localStorage
   };
 
   const handleSkillChange = (skillName) => {
