@@ -1,41 +1,65 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
+import { skills } from "../datasets/skills";
 
 const Filter = ({ onApplyFilters, activeFilters, setIsComponentVisible }) => {
-  const [jobType, setJobType] = useState(activeFilters?.jobType || 'Default');
-  const [minSalary, setMinSalary] = useState(activeFilters?.minSalary || '');
-  const [maxSalary, setMaxSalary] = useState(activeFilters?.maxSalary || '');
-  const [experience, setExperience] = useState(activeFilters?.experience || '');
+  const [jobType, setJobType] = useState(activeFilters?.jobType || "Default");
+  const [minSalary, setMinSalary] = useState(activeFilters?.minSalary || "");
+  const [maxSalary, setMaxSalary] = useState(activeFilters?.maxSalary || "");
+  const [experience, setExperience] = useState(activeFilters?.experience || "");
+  const [selectedSkills, setSelectedSkills] = useState(
+    activeFilters?.skills || []
+  );
 
   useEffect(() => {
-    setJobType(activeFilters?.jobType || 'Default');
-    setMinSalary(activeFilters?.minSalary || '');
-    setMaxSalary(activeFilters?.maxSalary || '');
-    setExperience(activeFilters?.experience || '');
+    setJobType(activeFilters?.jobType || "Default");
+    setMinSalary(activeFilters?.minSalary || "");
+    setMaxSalary(activeFilters?.maxSalary || "");
+    setExperience(activeFilters?.experience || "");
+    setSelectedSkills(activeFilters?.skills || []);
   }, [activeFilters]);
 
   const handleApplyFilters = () => {
-    onApplyFilters({ 
+    onApplyFilters({
       jobType,
-      minSalary: minSalary || '',
-      maxSalary: maxSalary || '',
-      experience: experience || ''
+      minSalary: minSalary || "",
+      maxSalary: maxSalary || "",
+      experience: experience || "",
+      skills: selectedSkills,
     });
   };
 
   const handleClearFilters = () => {
-    setJobType('Default');
-    setMinSalary('');
-    setMaxSalary('');
-    setExperience('');
-    onApplyFilters({ jobType: 'Default', minSalary: '', maxSalary: '', experience: '' });
+    setJobType("Default");
+    setMinSalary("");
+    setMaxSalary("");
+    setExperience("");
+    setSelectedSkills([]);
+    onApplyFilters({
+      jobType: "Default",
+      minSalary: "",
+      maxSalary: "",
+      experience: "",
+      skills: [],
+    });
+  };
+
+  const handleSkillChange = (skillName) => {
+    setSelectedSkills((prev) =>
+      prev.includes(skillName)
+        ? prev.filter((s) => s !== skillName)
+        : [...prev, skillName]
+    );
   };
 
   return (
     <div className="bg-white rounded-lg shadow-lg p-4">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-lg font-semibold">Filter Jobs</h2>
-        {(activeFilters?.jobType !== 'Default' || activeFilters?.minSalary || 
-          activeFilters?.maxSalary || activeFilters?.experience) && (
+        {(activeFilters?.jobType !== "Default" ||
+          activeFilters?.minSalary ||
+          activeFilters?.maxSalary ||
+          activeFilters?.experience ||
+          (activeFilters?.skills && activeFilters.skills.length > 0)) && (
           <button
             onClick={handleClearFilters}
             className="text-sm cursor-pointer text-blue-600 hover:text-blue-800"
@@ -44,7 +68,7 @@ const Filter = ({ onApplyFilters, activeFilters, setIsComponentVisible }) => {
           </button>
         )}
       </div>
-      
+
       {/* Job Type Filter */}
       <div className="mb-4">
         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -100,6 +124,26 @@ const Filter = ({ onApplyFilters, activeFilters, setIsComponentVisible }) => {
           className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
         <p className="text-xs text-gray-500 mt-1">Enter 0 for fresher</p>
+      </div>
+
+      {/* Skills Filter */}
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700 mb-2">
+          Your Skills
+        </label>
+        <div className="max-h-40 overflow-y-auto space-y-2">
+          {skills.map((skill) => (
+            <label key={skill.id} className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={selectedSkills.includes(skill.name)}
+                onChange={() => handleSkillChange(skill.name)}
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <span className="text-sm text-gray-700">{skill.name}</span>
+            </label>
+          ))}
+        </div>
       </div>
 
       <button

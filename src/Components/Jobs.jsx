@@ -51,7 +51,16 @@ function Jobs() {
       matchesExperience = userExperience >= requiredExperience;
     }
 
-    return matchesSearch && matchesJobType && matchesSalary && matchesExperience;
+    // Skills filtering
+    let matchesSkills = true;
+    if (activeFilters.skills && activeFilters.skills.length > 0) {
+      matchesSkills = activeFilters.skills.some(skill => 
+        job.skills.includes(skill)
+      );
+    }
+
+    return matchesSearch && matchesJobType && matchesSalary && 
+           matchesExperience && matchesSkills;
   });
 
   const handleApplyFilters = (filters) => {
