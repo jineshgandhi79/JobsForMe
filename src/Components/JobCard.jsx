@@ -1,14 +1,45 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Building2, MapPin, Calendar, Briefcase, IndianRupee, Clock } from 'lucide-react';
 
 const JobCard = ({ job }) => {
+  const statusOptions = [
+    'Select', 'Exploring', 'Interested', 'Shortlisted', 'Applied',
+    'In Progress', 'Offered', 'Accepted', 'Rejected', 'Archived'
+  ];
+
+  const [status, setStatus] = useState('Select');
+
+  useEffect(() => {
+    const savedStatus = localStorage.getItem(`job-${job.id}-status`);
+    if (savedStatus) {
+      setStatus(savedStatus);
+    }
+  }, [job.id]);
+
+  const handleStatusChange = (e) => {
+    const newStatus = e.target.value;
+    setStatus(newStatus);
+    localStorage.setItem(`job-${job.id}-status`, newStatus);
+  };
+
   return (
     <div className="w-full max-w-sm bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 overflow-hidden">
       {/* Header Section */}
       <div className="p-6 border-b border-gray-100">  
-        <h3 className="text-xl font-semibold text-gray-900 mb-2 line-clamp-2">
-          {job.title}
-        </h3>
+        <div className="flex justify-between items-start mb-2">
+          <h3 className="text-xl font-semibold text-gray-900 line-clamp-2">
+            {job.title}
+          </h3>
+          <select
+            value={status}
+            onChange={handleStatusChange}
+            className="ml-4 cursor-pointer px-2 py-1 text-sm border border-gray-200 rounded-md bg-white text-gray-600 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+          >
+            {statusOptions.map((option) => (
+              <option key={option} value={option}>{option}</option>
+            ))}
+          </select>
+        </div>
         <div className="flex items-center gap-2 text-gray-600 mb-2">
           <Building2 size={18} />
           <span className="text-sm font-medium">{job.company}</span>
