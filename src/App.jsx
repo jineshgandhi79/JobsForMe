@@ -3,6 +3,7 @@ import './App.css'
 import { lazy, Suspense } from 'react'
 import Loader  from "./Components/Loader"
 import UserProvider from './Contexts/UserContext'
+import Applications from './Components/Applications'
 
 const NavBar = lazy(() => import('./Components/NavBar'))
 const Home = lazy(() => import('./Components/Home'))
@@ -20,6 +21,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path='/applications' element={<Applications/>} />
           </Routes>
         </Suspense>
       </BrowserRouter>
