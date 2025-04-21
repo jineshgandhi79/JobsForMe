@@ -1,8 +1,7 @@
-import React, { useEffect, useState, useRef, useContext } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import JobCard from "./JobCard";
 import Loader from "./Loader";
 import Filter from "./Filter";
-import { UserContext } from "../Contexts/UserContext";
 
 function Jobs() {
   const [jobs, setJobs] = useState([]);

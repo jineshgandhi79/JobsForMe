@@ -3,7 +3,7 @@ import { skills } from "../datasets/skills";
 import { UserContext } from "../Contexts/UserContext";
 import { Link } from "react-router-dom";
 
-const Filter = ({ onApplyFilters, activeFilters }) => {
+const Filter = ({ onApplyFilters, activeFilters,setIsComponentVisible }) => {
   // Initialize state with stored filters
   const [jobType, setJobType] = useState(activeFilters?.jobType || "Default");
   const [minSalary, setMinSalary] = useState(activeFilters?.minSalary || "");
@@ -31,6 +31,7 @@ const Filter = ({ onApplyFilters, activeFilters }) => {
       experience: experience || "",
       skills: selectedSkills,
     });
+    setIsComponentVisible(false);
   };
 
   const handleClearFilters = () => {
