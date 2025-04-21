@@ -8,6 +8,20 @@ function Applications() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef(null);
+  const [statusFilter, setStatusFilter] = useState("All");
+
+  const statusOptions = [
+    'All',
+    'Exploring',
+    'Interested',
+    'Shortlisted',
+    'Applied',
+    'In Progress',
+    'Offered',
+    'Accepted',
+    'Rejected',
+    'Archived'
+  ];
 
   useEffect(() => {
     fetch("/jobs_mock_data.json")
@@ -26,11 +40,16 @@ function Applications() {
 
   const filteredJobs = jobs.filter((job) => {
     const query = searchQuery.toLowerCase().replace(/\s+/g, "");
-    return (
+    const matchesSearch = (
       job.title.toLowerCase().replace(/\s+/g, "").includes(query) ||
       job.company.toLowerCase().replace(/\s+/g, "").includes(query) ||
       job.location.toLowerCase().replace(/\s+/g, "").includes(query)
     );
+
+    const jobStatus = localStorage.getItem(`job-${job.id}-status`);
+    const matchesStatus = statusFilter === "All" || jobStatus === statusFilter;
+
+    return matchesSearch && matchesStatus;
   });
 
   return (
@@ -71,7 +90,7 @@ function Applications() {
           ) : (
             <>
               {/* Add search bar */}
-              <div className="flex items-center justify-center mb-8">
+              <div className="flex items-center justify-center gap-4 mb-8">
                 <div className="w-full max-w-2xl relative">
                   <input
                     ref={searchRef}
@@ -104,6 +123,20 @@ function Applications() {
                     </button>
                   )}
                 </div>
+
+                {/* Status filter dropdown */}
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="px-4 py-3 border border-gray-300 rounded-lg bg-white text-gray-700 focus:ring-2 
+                    focus:ring-blue-500 focus:border-transparent cursor-pointer"
+                >
+                  {statusOptions.map((option) => (
+                    <option key={option} value={option}>
+                      {option}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <ul className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
